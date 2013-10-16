@@ -44,5 +44,5 @@
 (defn cross
   [individual-a individual-b prob]
   (if (flip prob)
-  	(cross-at individual-a individual-b (rand-int (count individual-a)))
+  	(cross-at individual-a individual-b (inc (rand-int (dec (count individual-a)))))
   	[individual-a individual-b]))
