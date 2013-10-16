@@ -56,3 +56,8 @@
   (if (flip prob)
   	(cross-at individual-a individual-b (inc (rand-int (dec (count individual-a)))))
   	[individual-a individual-b]))
+
+(defn create-population
+  "Create n individuals with the specified number of genes and alleles."
+  [n num-genes alleles]
+  (repeatedly n (partial create-individual alleles num-genes)))
