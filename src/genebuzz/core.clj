@@ -9,10 +9,10 @@
   "Given a number, returns the number, Fizz, Buzz, or FizzBuzz according to FizzBuzz rules."
   [x]
   (cond
-  	(and (divisible x 3) (divisible x 5)) "FizzBuzz"
-  	(divisible x 3) "Fizz"
-  	(divisible x 5) "Buzz"
-  	:else x))
+    (and (divisible x 3) (divisible x 5)) "FizzBuzz"
+    (divisible x 3) "Fizz"
+    (divisible x 5) "Buzz"
+    :else x))
 
 (defn fitness
   "Calculate the fitness of an individual, given the solution."
@@ -54,8 +54,8 @@
   "Cross genes from two individuals with the specified probability."
   [individual-a individual-b prob]
   (if (flip prob)
-  	(cross-at individual-a individual-b (inc (rand-int (dec (count individual-a)))))
-  	[individual-a individual-b]))
+    (cross-at individual-a individual-b (inc (rand-int (dec (count individual-a)))))
+    [individual-a individual-b]))
 
 (defn create-population
   "Create n individuals with the specified number of genes and alleles."
