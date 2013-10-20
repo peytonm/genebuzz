@@ -14,7 +14,7 @@
     (divisible x 5) "Buzz"
     :else x))
 
-(defn fitness
+(defn calc-fitness
   "Calculate the fitness of an individual, given the solution."
   [xs solution]
   (apply + (map #(if (= % %2) 1 0) xs solution)))
@@ -61,3 +61,18 @@
   "Create n individuals with the specified number of genes and alleles."
   [n num-genes alleles]
   (repeatedly n (partial create-individual alleles num-genes)))
+
+(defn calc-population-fitness
+  "Calculate fitness across the population."
+  [population solution]
+  (map calc-fitness population (repeat solution)))
+
+(defn get-elites
+  "Returns the elites."
+  [population fitness num-elites]
+  ;; Note that if two individuals have the same fitness,
+  ;; the choice between them will be basically arbitrary!
+  (take num-elites
+    (map :genes
+      (sort-by :fitness >
+        (map #(hash-map :genes %1 :fitness %2) population fitness)))))
