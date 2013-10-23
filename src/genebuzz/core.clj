@@ -94,3 +94,12 @@
     (bin
       (rand (apply + weights))
       (cons 0 (reductions + weights)))))
+
+(defn breed
+  "Select two parents and create a child."
+  [population fitness cross-prob]
+  ;; Note that an individual can breed with himself
+  ;; since sampling is with replacement.
+  (let [parents (repeatedly 2 #(sample population fitness))]
+    (first
+      (cross (first parents) (second parents) cross-prob))))
