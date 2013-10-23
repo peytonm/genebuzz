@@ -76,3 +76,21 @@
     (map :genes
       (sort-by :fitness >
         (map #(hash-map :genes %1 :fitness %2) population fitness)))))
+
+(defn bin
+  "Bin a number, given bin boundaries."
+  [x bin-endpoints]
+  (dec
+    (eval
+      (cons 'cond
+        (interleave
+          (map #(list '< x %) bin-endpoints)
+          (range))))))
+
+(defn sample
+  "Take a weighted sample from a collection."
+  [coll weights]
+  (nth coll
+    (bin
+      (rand (apply + weights))
+      (cons 0 (reductions + weights)))))
