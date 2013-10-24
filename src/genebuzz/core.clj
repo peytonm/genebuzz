@@ -103,3 +103,12 @@
   (let [parents (repeatedly 2 #(sample population fitness))]
     (first
       (cross (first parents) (second parents) cross-prob))))
+
+(defn evolve
+  "Crosses and mutates the population to create n children."
+  [population n fitness cross-prob mutate-prob alleles]
+  (map mutate
+    (repeatedly n
+      #(breed population fitness cross-prob))
+    (repeat n mutate-prob)
+    (repeat n alleles)))
