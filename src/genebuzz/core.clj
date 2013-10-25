@@ -112,3 +112,11 @@
       #(breed population fitness cross-prob))
     (repeat n mutate-prob)
     (repeat n alleles)))
+
+(defn advance-generation
+  "Advances a generation by retaining elites and evolving."
+  [population fitness num-elites cross-prob mutate-prob alleles]
+  (concat
+    (get-elites population fitness num-elites)
+    (evolve population
+      (- (count population) num-elites) fitness cross-prob mutate-prob alleles)))
