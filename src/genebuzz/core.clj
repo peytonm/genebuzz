@@ -120,3 +120,20 @@
     (get-elites population fitness num-elites)
     (evolve population
       (- (count population) num-elites) fitness cross-prob mutate-prob alleles)))
+
+(defn get-winner
+  "Selects the winner, or returns nil if there isn't one."
+  [population solution]
+  (let [matches (filter #(= solution %) population)]
+    (if (empty? matches) nil (first matches))))
+
+(defn start
+  [population solution alleles num-elites cross-prob mutate-prob]
+  (let
+    [fitness (calc-population-fitness population solution)
+     winner (get-winner population solution)]
+    (if (not (nil? winner))
+      winner
+      (recur
+        (advance-generation population fitness num-elites cross-prob mutate-prob alleles)
+        solution alleles num-elites cross-prob mutate-prob))))
