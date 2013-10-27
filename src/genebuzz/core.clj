@@ -1,4 +1,6 @@
-(ns genebuzz.core)
+(ns genebuzz.core
+  (:gen-class :main true)
+  (:use [clojure.tools.cli :only [cli]]))
 
 (defn divisible
   "Determine whether one number is divisible by another."
@@ -137,3 +139,24 @@
       (recur
         (advance-generation population fitness num-elites cross-prob mutate-prob alleles)
         solution alleles num-elites cross-prob mutate-prob))))
+
+(defn -main [& args]
+  (let [[options args banner]
+    (cli args
+      ["--from" "Value to start FizzBuzz sequence at" :default 1 :parse-fn #(Integer. %)]
+      ["--to" "Value to end FuzzBuzz sequence at" :default 100 :parse-fn #(Integer. %)]
+      ["--n" "-n" "Population size" :default 25 :parse-fn #(Integer. %)]
+      ["--elites" "Number of elites to keep in each generation" :default 2 :parse-fn #(Integer. %)]
+      ["--crossprob" "Probability of crossing" :default 0.7 :parse-fn #(Double. %)]
+      ["--mutateprob" "Probabiltiy of mutation" :default 0.01 :parse-fn #(Double. %)]
+      ["-h" "--help" "Show help" :default false :flag true])]
+    (when (:help options)
+      (println banner)
+      (System/exit 0))
+    (let
+      [alleles (get-alleles (:from options) (:to options))
+       solution (get-solution (:from options) (:to options))
+       population (create-population (:n options) (inc (- (:to options) (:from options))) alleles)]
+      (println
+        (start population solution alleles
+          (:elites options) (:crossprob options) (:mutateprob options))))))
