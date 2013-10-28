@@ -130,6 +130,7 @@
     (if (empty? matches) nil (first matches))))
 
 (defn start
+  "Given a population, advance generations until the solution is reached."
   [population solution alleles num-elites cross-prob mutate-prob]
   (let
     [fitness (calc-population-fitness population solution)
