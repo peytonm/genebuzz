@@ -129,7 +129,7 @@
   (let [matches (filter #(= solution %) population)]
     (if (empty? matches) nil (first matches))))
 
-(defn start
+(defn find-solution
   "Given a population, advance generations until the solution is reached."
   [population solution alleles num-elites cross-prob mutate-prob]
   (let
@@ -163,5 +163,5 @@
        solution (get-solution (:from options) (:to options))
        population (create-population (:n options) (inc (- (:to options) (:from options))) alleles)]
       (println
-        (start population solution alleles
+        (find-solution population solution alleles
           (:elites options) (:crossprob options) (:mutateprob options))))))
